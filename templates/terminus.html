@@ -8,43 +8,22 @@
     body {
       font-family: 'Arial', sans-serif;
       margin: 0; padding: 0;
-      background-color: #1a1a1a;
-      color: #e0e0e0;
-      transition: all 0.3s;
+      background-color: #1a1a1a; color: #e0e0e0;
       overflow-x: hidden;
     }
-
     .background {
-      position: fixed;
-      top: 0; left: 0;
+      position: fixed; top: 0; left: 0;
       width: 100%; height: 100%;
       z-index: -1;
       background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
-      overflow: hidden;
-    }
-
-    .background::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: radial-gradient(circle at 20% 30%, rgba(120, 148, 97, 0.1) 0%, transparent 20%),
-                  radial-gradient(circle at 80% 70%, rgba(90, 62, 42, 0.1) 0%, transparent 20%);
-      animation: pulse 15s infinite;
-      opacity: 0.7;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 0.7; }
-      50% { transform: scale(1.1); opacity: 0.3; }
-      100% { transform: scale(1); opacity: 0.7; }
     }
 
     .container { display: flex; min-height: 100vh; position: relative; }
 
+    /* Sidebar */
     .sidebar {
       width: 200px;
-      background-color: rgba(42, 42, 42, 0.9);
+      background-color: rgba(42,42,42,0.9);
       color: #fff;
       padding: 20px;
       position: fixed;
@@ -55,7 +34,7 @@
       transition: all 0.3s;
       z-index: 1000;
       border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
       backdrop-filter: blur(5px);
     }
 
@@ -63,145 +42,100 @@
 
     .sidebar h2 {
       color: #e67e22;
-      margin-top: 0;
+      margin: 0 0 15px;
       text-align: center;
       font-size: 1.2rem;
-      margin-bottom: 20px;
-      position: relative;
     }
 
-    .sidebar h2::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 50px; height: 2px;
-      background-color: #e67e22;
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
     }
-
-    .sidebar ul { list-style: none; padding: 0; }
-    .sidebar li { margin: 10px 0; position: relative; }
-    .sidebar li::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 50%;
-      transform: translateY(-50%);
-      width: 4px; height: 4px;
-      background-color: #e67e22;
-      border-radius: 50%;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .sidebar li:hover::before { opacity: 1; }
-
+    .sidebar li { margin: 10px 0; }
     .sidebar a {
       color: #fff; text-decoration: none;
       display: block; padding: 8px;
-      border-radius: 4px; transition: all 0.3s;
+      border-radius: 4px;
       text-align: center; font-size: 0.9rem;
-      position: relative; overflow: hidden;
+      position: relative;
     }
+    .sidebar a.active { background: #e67e22; color: #1a1a1a; }
 
-    .sidebar a::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-color: rgba(230, 126, 34, 0.2);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s;
-    }
-
-    .sidebar a:hover::before { transform: scaleX(1); }
-    .sidebar a:hover { color: #1a1a1a; }
-    .sidebar a.active { background-color: #e67e22; color: #1a1a1a; }
-
+    /* Toggle button */
     .toggle-btn {
       position: fixed;
-      top: 50%; left: 20px;
+      top: 50%;
+      left: 20px;
       transform: translateY(-50%);
-      background-color: #e67e22; color: #fff;
-      border: none; padding: 10px;
-      border-radius: 50%; cursor: pointer;
-      z-index: 1001; transition: all 0.3s;
+      background-color: #e67e22;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 1001;
       width: 40px; height: 40px;
       display: flex; justify-content: center; align-items: center;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
-    .toggle-btn:hover {
-      transform: translateY(-50%) scale(1.1);
-      background-color: #d35400;
-    }
-    .toggle-btn.collapsed { left: 20px; }
 
     .main-content {
-      margin-left: 220px; padding: 20px;
+      margin-left: 220px;
+      padding: 20px;
       width: calc(100% - 220px);
-      transition: all 0.3s;
-      display: flex; justify-content: center; align-items: center;
-      min-height: 100vh;
+      display: flex;
+      justify-content: center;
     }
-    .main-content.collapsed { margin-left: 0; width: 100%; }
 
     .page {
-      padding: 30px;
-      background-color: rgba(42, 42, 42, 0.9);
+      padding: 20px;
+      background: rgba(42,42,42,0.9);
       border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-      max-width: 800px; width: 100%;
+      max-width: 900px;
+      width: 100%;
+      border: 1px solid rgba(230,126,34,0.3);
       text-align: center;
-      backdrop-filter: blur(5px);
-      border: 1px solid rgba(230, 126, 34, 0.3);
-      position: relative;
-      overflow: hidden;
-      animation: fadeIn 0.5s ease-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .page h1 {
-      color: #e67e22;
-      margin-top: 0;
-      position: relative;
-      padding-bottom: 10px;
-    }
-    .page h1::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 50%;
-      transform: translateX(-50%);
-      width: 50px; height: 2px;
-      background-color: #e67e22;
     }
 
     .hero img {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      border: 2px solid #e67e22;
+      width: 100%; border-radius: 10px;
+      margin-bottom: 15px; border: 2px solid #e67e22;
     }
 
-    .axis-row { display: flex; align-items: center; margin: 15px 0; justify-content: center; flex-wrap: wrap; }
-    .axis-row span { width: 40px; font-weight: bold; color: #e67e22; font-size: 1.1rem; text-align: right; margin-right: 10px; }
-    .images { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+    .page h1 { color: #e67e22; margin-top: 0; }
+
+    .solver-container { margin: 20px 0; }
+    .axis-row {
+      display: flex; align-items: center;
+      margin: 15px 0; justify-content: center; flex-wrap: wrap;
+    }
+    .axis-row span {
+      width: 40px; font-weight: bold;
+      color: #e67e22; font-size: 1.1rem;
+      text-align: right; margin-right: 10px;
+    }
+    .images {
+      display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+    }
     .images img {
       width: 65px; height: 65px; object-fit: contain;
       border: 2px solid #444; border-radius: 6px; cursor: pointer;
       transition: transform 0.2s, border-color 0.2s;
     }
     .images img:hover { transform: scale(1.08); border-color: #e67e22; }
-    .images img.selected { border-color: #e67e22; box-shadow: 0 0 10px rgba(230,126,34,0.7); }
+    .images img.selected {
+      border-color: #e67e22; box-shadow: 0 0 10px rgba(230,126,34,0.7);
+    }
 
-    .result-container { margin-top: 25px; display: flex; justify-content: center; gap: 15px; }
+    /* Code result */
+    .result-container {
+      margin-top: 25px; display: flex; justify-content: center; gap: 15px;
+    }
     .code-box {
       width: 70px; height: 70px;
       background: #000; border: 3px solid #e67e22;
-      border-radius: 8px; display: flex; justify-content: center; align-items: center;
+      border-radius: 8px; display: flex;
+      justify-content: center; align-items: center;
       font-size: 2rem; font-weight: bold; color: #e67e22;
       box-shadow: 0 0 10px rgba(230,126,34,0.6);
     }
@@ -216,49 +150,35 @@
     .info-box ol { margin: 0; padding-left: 20px; }
     .info-box li { margin: 8px 0; }
 
-    .floating-element {
-      position: absolute;
-      background-color: rgba(230, 126, 34, 0.2);
-      border-radius: 50%;
-      animation: float 15s infinite ease-in-out;
-    }
-    .floating-element:nth-child(1) { width: 50px; height: 50px; top: 10%; left: 15%; animation-delay: 0s; }
-    .floating-element:nth-child(2) { width: 80px; height: 80px; top: 30%; left: 80%; animation-delay: 2s; }
-    .floating-element:nth-child(3) { width: 30px; height: 30px; top: 70%; left: 20%; animation-delay: 4s; }
-    .floating-element:nth-child(4) { width: 60px; height: 60px; top: 50%; left: 70%; animation-delay: 6s; }
-
-    @keyframes float {
-      0%,100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(180deg); }
-    }
-
+    /* Mobile */
     @media (max-width: 768px) {
       .sidebar {
         width: 100%; height: auto;
         position: fixed; top: 0; left: 0;
         transform: none; border-radius: 0;
-        z-index: 1000;
+        z-index: 1000; padding: 10px;
       }
-      .sidebar.collapsed { width: 0; height: 0; padding: 0; overflow: hidden; }
-      .main-content { margin-left: 0; width: 100%; padding-top: 60px; }
-      .main-content.collapsed { margin-left: 0; width: 100%; }
+      .sidebar ul {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+      .sidebar li { margin: 0; }
+      .main-content {
+        margin-left: 0; width: 100%;
+        padding-top: 100px;
+      }
       .toggle-btn { top: 10px; left: 10px; transform: none; }
-      .axis-row span { width:auto; margin: 0 0 5px 0; text-align:center; }
+      .axis-row span { width: auto; margin: 0 0 5px 0; text-align: center; }
       .images img { width: 50px; height: 50px; }
       .code-box { width: 55px; height: 55px; font-size: 1.5rem; }
     }
   </style>
 </head>
 <body>
-  <div class="background">
-    <div class="floating-element"></div>
-    <div class="floating-element"></div>
-    <div class="floating-element"></div>
-    <div class="floating-element"></div>
-  </div>
-
+  <div class="background"></div>
   <button class="toggle-btn">☰</button>
-
   <div class="container">
     <div class="sidebar">
       <h2>Navigation</h2>
@@ -275,13 +195,23 @@
         <div class="hero">
           <img src="https://hub.tcno.co/games/bo6/terminus/terminus.webp" alt="Terminus Guide">
         </div>
+
         <h1>Terminus Solver</h1>
         <p>Select the shapes for X, Y, and Z. The calculator outputs the final code.</p>
 
         <div class="solver-container">
-          <div class="axis-row"><span>X:</span><div class="images" id="x-images"></div></div>
-          <div class="axis-row"><span>Y:</span><div class="images" id="y-images"></div></div>
-          <div class="axis-row"><span>Z:</span><div class="images" id="z-images"></div></div>
+          <div class="axis-row">
+            <span>X:</span>
+            <div class="images" id="x-images"></div>
+          </div>
+          <div class="axis-row">
+            <span>Y:</span>
+            <div class="images" id="y-images"></div>
+          </div>
+          <div class="axis-row">
+            <span>Z:</span>
+            <div class="images" id="z-images"></div>
+          </div>
         </div>
 
         <div class="result-container" id="result">
@@ -293,9 +223,9 @@
         <div class="info-box">
           <h2>How to Find X, Y, and Z</h2>
           <ol>
-            <li><strong>X:</strong> Find the hour hand on the clock in the Quick Revive room.</li>
+            <li><strong>X:</strong> Find the hour hand on the clock in the Quick Revive room. That number is X.</li>
             <li><strong>Y:</strong> Look for a playing card in the Mess Hall. If Ace → Y = 1; else use its number.</li>
-            <li><strong>Z:</strong> Check the "Days Since Last Injury" sign in Engineering (F5).</li>
+            <li><strong>Z:</strong> Check the "Days Since Last Injury" sign in Engineering (F5). That number is Z.</li>
           </ol>
         </div>
       </div>
@@ -337,7 +267,9 @@
       return [eq1, eq2, eq3];
     }
 
-    function formatCode(val) { return val.toString().padStart(2,"0"); }
+    function formatCode(val) {
+      return val.toString().padStart(2, "0");
+    }
 
     function showResults() {
       const {X, Y, Z} = selections;
@@ -350,24 +282,27 @@
     createImageGrid("y-images", "Y");
     createImageGrid("z-images", "Z");
 
-    const toggleBtn=document.querySelector(".toggle-btn");
-    const sidebar=document.querySelector(".sidebar");
-    const mainContent=document.querySelector(".main-content");
-    toggleBtn.addEventListener("click",()=>{
-      sidebar.classList.toggle("collapsed");
-      mainContent.classList.toggle("collapsed");
-      toggleBtn.classList.toggle("collapsed");
-    });
+    document.addEventListener('DOMContentLoaded', function() {
+      const navLinks = document.querySelectorAll('.nav-link');
+      const toggleBtn = document.querySelector('.toggle-btn');
+      const sidebar = document.querySelector('.sidebar');
+      const mainContent = document.querySelector('.main-content');
 
-    document.addEventListener("click",(e)=>{
-      if (window.innerWidth<=768 &&
-          !sidebar.contains(e.target) &&
-          !toggleBtn.contains(e.target) &&
-          !sidebar.classList.contains("collapsed")) {
-        sidebar.classList.add("collapsed");
-        mainContent.classList.add("collapsed");
-        toggleBtn.classList.add("collapsed");
-      }
+      // highlight active
+      const currentPath = window.location.pathname;
+      navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+
+      toggleBtn.addEventListener('click', function() {
+        sidebar.classList.toggle('collapsed');
+        mainContent.classList.toggle('collapsed');
+        toggleBtn.classList.toggle('collapsed');
+      });
     });
   </script>
 </body>
