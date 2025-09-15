@@ -14,160 +14,40 @@
       overflow-x: hidden;
     }
 
-    .background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
-      overflow: hidden;
-    }
-    .background::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at 20% 30%, rgba(120, 148, 97, 0.1) 0%, transparent 20%),
-                  radial-gradient(circle at 80% 70%, rgba(90, 62, 42, 0.1) 0%, transparent 20%);
-      animation: pulse 15s infinite;
-      opacity: 0.7;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 0.7; }
-      50% { transform: scale(1.1); opacity: 0.3; }
-      100% { transform: scale(1); opacity: 0.7; }
-    }
+    .background { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1;
+      background: linear-gradient(135deg, #1a1a1a, #2a2a2a); }
 
     .container { display: flex; min-height: 100vh; position: relative; }
+    .sidebar { width:200px; background:rgba(42,42,42,0.9); padding:20px; position:fixed; 
+      top:50%; left:20px; transform:translateY(-50%); border-radius:10px; }
+    .sidebar a { display:block; padding:8px; text-decoration:none; color:#fff; border-radius:4px; }
+    .sidebar a.active { background:#e67e22; color:#1a1a1a; }
 
-    .sidebar {
-      width: 200px;
-      background-color: rgba(42, 42, 42, 0.9);
-      color: #fff;
-      padding: 20px;
-      position: fixed;
-      height: 60%;
-      top: 50%;
-      left: 20px;
-      transform: translateY(-50%);
-      transition: all 0.3s;
-      z-index: 1000;
-      border-radius: 10px;
-      backdrop-filter: blur(5px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    }
-    .sidebar.collapsed { width: 0; padding: 0; overflow: hidden; left: -20px; }
-    .sidebar h2 { color: #e67e22; text-align: center; font-size: 1.2rem; margin: 0 0 20px; }
-    .sidebar ul { list-style: none; padding: 0; }
-    .sidebar a {
-      display: block;
-      padding: 8px;
-      text-decoration: none;
-      color: #fff;
-      border-radius: 4px;
-      transition: all 0.3s;
-      text-align: center;
-    }
-    .sidebar a.active { background: #e67e22; color: #1a1a1a; }
-    .sidebar a:hover { background: rgba(230,126,34,0.2); color: #e67e22; }
+    .toggle-btn { position:fixed; top:50%; left:20px; background:#e67e22; border:none;
+      padding:10px; border-radius:50%; cursor:pointer; z-index:1001; }
 
-    .toggle-btn {
-      position: fixed;
-      top: 50%;
-      left: 20px;
-      transform: translateY(-50%);
-      background-color: #e67e22;
-      color: #fff;
-      border: none;
-      padding: 10px;
-      border-radius: 50%;
-      cursor: pointer;
-      z-index: 1001;
-    }
+    .main-content { margin-left:220px; padding:20px; width:calc(100% - 220px); 
+      display:flex; justify-content:center; align-items:center; }
+    .page { max-width:900px; width:100%; background:rgba(42,42,42,0.9); padding:20px; border-radius:10px; }
 
-    .main-content {
-      margin-left: 220px;
-      padding: 20px;
-      width: calc(100% - 220px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .main-content.collapsed { margin-left: 0; width: 100%; }
+    .page img.header { max-width:100%; border-radius:10px; margin-bottom:20px; }
 
-    .page {
-      padding: 20px;
-      background: rgba(42,42,42,0.9);
-      border-radius: 10px;
-      border: 1px solid rgba(230,126,34,0.3);
-      max-width: 800px;
-      width: 100%;
-      text-align: center;
-    }
+    .row { margin:20px 0; text-align:center; }
+    .row h3 { color:#e67e22; margin-bottom:10px; }
+    .images { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; }
+    .images img { width:80px; height:80px; object-fit:cover; cursor:pointer; border:2px solid transparent; border-radius:8px; transition:0.2s; }
+    .images img.selected { border-color:#e67e22; box-shadow:0 0 10px #e67e22; }
 
-    .page img {
-      max-width: 100%;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
+    button { background:#e67e22; color:#1a1a1a; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; }
+    .result { margin-top:15px; font-size:1.3rem; font-weight:bold; color:#e67e22; }
 
-    .solver-section { margin: 20px 0; }
-    .solver-inputs {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-    input {
-      width: 60px;
-      padding: 8px;
-      border-radius: 4px;
-      border: 1px solid #e67e22;
-      background: rgba(42,42,42,0.7);
-      color: #fff;
-      font-size: 1rem;
-      text-align: center;
-    }
-    input:focus { outline: none; border-color: #d35400; }
+    .info-card { margin-top:30px; padding:20px; border-radius:8px; background:rgba(42,42,42,0.7); border:1px solid rgba(230,126,34,0.3); text-align:left; }
+    .info-card h3 { color:#e67e22; }
 
-    button {
-      background: #e67e22;
-      color: #1a1a1a;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 15px;
-    }
-    button:hover { background: #d35400; }
-
-    .result-container {
-      margin-top: 15px;
-      font-size: 1.3rem;
-      font-weight: bold;
-      color: #e67e22;
-    }
-
-    .info-card {
-      margin-top: 30px;
-      text-align: left;
-      padding: 20px;
-      border-radius: 8px;
-      background: rgba(42,42,42,0.7);
-      border: 1px solid rgba(230,126,34,0.3);
-    }
-    .info-card h3 { color: #e67e22; margin-top: 0; }
-
-    @media (max-width: 768px) {
-      .sidebar { width: 100%; height: auto; top: 0; left: 0; transform: none; border-radius: 0; }
-      .main-content { margin-left: 0; padding-top: 60px; }
-      .solver-inputs { flex-direction: column; gap: 10px; }
-      input { width: 100%; }
+    @media (max-width:768px){
+      .sidebar{width:100%;height:auto;top:0;left:0;transform:none;}
+      .main-content{margin-left:0;padding-top:60px;}
+      .images img{width:60px;height:60px;}
     }
   </style>
 </head>
@@ -188,27 +68,53 @@
 
     <div class="main-content">
       <div class="page">
-        <img src="https://hub.tcno.co/games/bo6/terminus/terminus.webp" alt="Terminus Instructions">
+        <img src="https://hub.tcno.co/games/bo6/terminus/terminus.webp" class="header" alt="Terminus Instructions">
         <h1>Terminus Solver</h1>
-        <p>Input your X, Y, and Z values below to get the solved results.</p>
+        <p>Select the correct X, Y, and Z images from the boards below:</p>
 
-        <div class="solver-section">
-          <div class="solver-inputs">
-            <input type="number" id="x" placeholder="X">
-            <input type="number" id="y" placeholder="Y">
-            <input type="number" id="z" placeholder="Z">
+        <!-- X row -->
+        <div class="row" id="rowX">
+          <h3>X:</h3>
+          <div class="images">
+            <img src="https://raw.githubusercontent.com/8zj/bo6-bs/main/Img/0.png" data-value="0">
+            <img src="https://raw.githubusercontent.com/8zj/bo6-bs/main/Img/1.png" data-value="1">
+            <img src="https://raw.githubusercontent.com/8zj/bo6-bs/main/Img/2.png" data-value="2">
           </div>
-          <button id="solveBtn">Solve</button>
-          <div class="result-container" id="result"></div>
         </div>
 
+        <!-- Y row -->
+        <div class="row" id="rowY">
+          <h3>Y:</h3>
+          <div class="images">
+            <img src="https://raw.githubusercontent.com/8zj/bo6-bs/main/Img/10.png" data-value="10">
+            <img src="https://raw.githubusercontent.com/8zj/bo6-bs/main/Img/11.png" data-value="11">
+            <img src="https://raw.githubusercontent.com/8zj/bo6-bs/main/Img/12.png" data-value="12">
+          </div>
+        </div>
+
+        <!-- Z row -->
+        <div class="row" id="rowZ">
+          <h3>Z:</h3>
+          <div class="images">
+            <img src="https://raw.githubusercontent.com/8zj/bo6-bs/main/Img/20.png" data-value="20">
+            <img src="https://raw.githubusercontent.com/8zj/bo6-bs/main/Img/21.png" data-value="21">
+            <img src="https://raw.githubusercontent.com/8zj/bo6-bs/main/Img/22.png" data-value="22">
+          </div>
+        </div>
+
+        <button id="solveBtn">Solve</button>
+        <div class="result" id="result"></div>
+
         <div class="info-card">
-          <h3>How to Find Numbers</h3>
+          <h3>How to Use</h3>
           <p>
-            1. <b>X</b>: Find the hour hand on the clock in the Quick Revive room.<br>
-            2. <b>Y</b>: Find the playing card on the Mess Hall bulletin board (Ace = 1).<br>
-            3. <b>Z</b>: Go to Engineering (F5) and check the “Days Since Last Injury” sign.<br><br>
-            Once you have X, Y, Z, enter them above and hit Solve.
+            - Click the image for X, Y, and Z from their respective rows.<br>
+            - Each selection lights up when active.<br>
+            - Hit <b>Solve</b> to calculate the 3 equation results.<br><br>
+            <b>Equations:</b><br>
+            1. 2x + 11<br>
+            2. (2z + y) - 5<br>
+            3. |(y + z) - x|<br>
           </p>
         </div>
       </div>
@@ -216,24 +122,36 @@
   </div>
 
   <script>
-    document.getElementById("solveBtn").addEventListener("click", () => {
-      const x = parseInt(document.getElementById("x").value) || 0;
-      const y = parseInt(document.getElementById("y").value) || 0;
-      const z = parseInt(document.getElementById("z").value) || 0;
+    let selected = {x:null,y:null,z:null};
 
-      // Equations from example
-      const eq1 = 2 * x + 11;
-      const eq2 = (2 * z + y) - 5;
-      const eq3 = Math.abs((y + z) - x);
+    document.querySelectorAll(".images img").forEach(img=>{
+      img.addEventListener("click",()=>{
+        const row = img.closest(".row").id;
+        document.querySelectorAll("#"+row+" img").forEach(i=>i.classList.remove("selected"));
+        img.classList.add("selected");
+        if(row==="rowX") selected.x = parseInt(img.dataset.value);
+        if(row==="rowY") selected.y = parseInt(img.dataset.value);
+        if(row==="rowZ") selected.z = parseInt(img.dataset.value);
+      });
+    });
 
+    document.getElementById("solveBtn").addEventListener("click",()=>{
+      if(selected.x===null||selected.y===null||selected.z===null){
+        document.getElementById("result").textContent = "⚠️ Select X, Y, and Z first!";
+        return;
+      }
+      const x=selected.x,y=selected.y,z=selected.z;
+      const eq1 = 2*x + 11;
+      const eq2 = (2*z + y) - 5;
+      const eq3 = Math.abs((y+z)-x);
       document.getElementById("result").textContent =
         `Results: ${eq1}, ${eq2.toString().padStart(2,'0')}, ${eq3.toString().padStart(2,'0')}`;
     });
 
-    const toggleBtn = document.querySelector(".toggle-btn");
-    const sidebar = document.querySelector(".sidebar");
-    const mainContent = document.querySelector(".main-content");
-    toggleBtn.addEventListener("click", () => {
+    const toggleBtn=document.querySelector(".toggle-btn");
+    const sidebar=document.querySelector(".sidebar");
+    const mainContent=document.querySelector(".main-content");
+    toggleBtn.addEventListener("click",()=>{
       sidebar.classList.toggle("collapsed");
       mainContent.classList.toggle("collapsed");
     });
