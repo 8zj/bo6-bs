@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terminus - Zombie Theme Website</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0; padding: 0;
+      background-color: #1a1a1a; color: #e0e0e0;
+      overflow-x: hidden;
+    }
+    .background {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+      background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+    }
+    .container { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: 200px;
+      background: rgba(42,42,42,0.9);
+      padding: 20px;
+      position: fixed; height: 60%; top: 50%; left: 20px;
+      transform: translateY(-50%);
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      backdrop-filter: blur(5px);
+      z-index: 1000;
+    }
+    .sidebar h2 { color: #e67e22; margin: 0 0 15px; text-align: center; }
+    .sidebar ul { list-style: none; padding: 0; }
+    .sidebar a {
+      color: #fff; text-decoration: none;
+      display: block; padding: 8px; border-radius: 4px;
+      text-align: center; font-size: 0.9rem;
+    }
+    .sidebar a.active { background: #e67e22; color: #1a1a1a; }
+    .toggle-btn {
+      position: fixed; top: 10px; left: 10px;
+      background: #e67e22; color: #fff;
+      border: none; border-radius: 5px; cursor: pointer;
+      padding: 8px 12px; font-size: 1.2rem;
+      z-index: 1001;
+    }
+    .main-content {
+      margin-left: 220px; padding: 20px;
+      width: calc(100% - 220px);
+      display: flex; justify-content: center;
+    }
+    .page {
+      padding: 20px; background: rgba(42,42,42,0.9);
+      border-radius: 10px; max-width: 900px; width: 100%;
+      border: 1px solid rgba(230,126,34,0.3);
+      text-align: center;
+    }
+    .hero img {
+      width: 100%; border-radius: 10px;
+      margin-bottom: 15px; border: 2px solid #e67e22;
+    }
+    .page h1 { color: #e67e22; margin-top: 0; }
+    .solver-container { margin: 20px 0; }
+    .axis-row { display: flex; align-items: center; margin: 15px 0; justify-content: center; flex-wrap: wrap; }
+    .axis-row span { width: 40px; font-weight: bold; color: #e67e22; font-size: 1.1rem; text-align: right; margin-right: 10px; }
+    .images { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+    .images img {
+      width: 65px; height: 65px; object-fit: contain;
+      border: 2px solid #444; border-radius: 6px; cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .images img:hover { transform: scale(1.08); border-color: #e67e22; }
+    .images img.selected { border-color: #e67e22; box-shadow: 0 0 10px rgba(230,126,34,0.7); }
+
+    /* Code result display */
+    .result-container {
+      margin-top: 25px; display: flex; justify-content: center; gap: 15px;
+    }
+    .code-box {
+      width: 70px; height: 70px;
+      background: #000; border: 3px solid #e67e22;
+      border-radius: 8px; display: flex;
+      justify-content: center; align-items: center;
+      font-size: 2rem; font-weight: bold; color: #e67e22;
+      box-shadow: 0 0 10px rgba(230,126,34,0.6);
+    }
+
+    .info-box {
+      margin-top: 30px; padding: 20px;
+      background: rgba(30,30,30,0.8);
+      border: 1px solid #e67e22;
+      border-radius: 8px; text-align: left;
+    }
+    .info-box h2 { margin-top: 0; color: #e67e22; }
+    .info-box ol { margin: 0; padding-left: 20px; }
+    .info-box li { margin: 8px 0; }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main-content { margin-left: 0; width: 100%; padding: 15px; }
+      .axis-row span { width: auto; margin: 0 0 5px 0; text-align: center; }
+      .images img { width: 50px; height: 50px; }
+      .code-box { width: 55px; height: 55px; font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="background"></div>
+  <button class="toggle-btn">☰</button>
+  <div class="container">
+    <div class="sidebar">
+      <h2>Navigation</h2>
+      <ul>
+        <li><a href="/" class="nav-link">Home</a></li>
+        <li><a href="/reckoning" class="nav-link">Reckoning</a></li>
+        <li><a href="/shattered" class="nav-link">Shattered Veil</a></li>
+        <li><a href="/terminus" class="nav-link active">Terminus</a></li>
+      </ul>
+    </div>
+
+    <div class="main-content">
+      <div class="page">
+        <div class="hero">
+          <img src="https://hub.tcno.co/games/bo6/terminus/terminus.webp" alt="Terminus Guide">
+        </div>
+
+        <h1>Terminus Solver</h1>
+        <p>Select the shapes for X, Y, and Z. The calculator outputs the final code.</p>
+
+        <div class="solver-container">
+          <div class="axis-row">
+            <span>X:</span>
+            <div class="images" id="x-images"></div>
+          </div>
+          <div class="axis-row">
+            <span>Y:</span>
+            <div class="images" id="y-images"></div>
+          </div>
+          <div class="axis-row">
+            <span>Z:</span>
+            <div class="images" id="z-images"></div>
+          </div>
+        </div>
+
+        <div class="result-container" id="result">
+          <div class="code-box">--</div>
+          <div class="code-box">--</div>
+          <div class="code-box">--</div>
+        </div>
+
+        <div class="info-box">
+          <h2>How to Find X, Y, and Z</h2>
+          <ol>
+            <li><strong>X:</strong> Find the hour hand on the clock in the Quick Revive room. That number is X.</li>
+            <li><strong>Y:</strong> Look for a playing card in the Mess Hall. If Ace → Y = 1; else use its number.</li>
+            <li><strong>Z:</strong> Check the "Days Since Last Injury" sign in Engineering (F5). That number is Z.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const images = [
+      { code: 0, url: "https://raw.githubusercontent.com/8zj/bo6-bs/main/Img/0.png" },
+      { code: 10, url: "https://raw.githubusercontent.com/8zj/bo6-bs/main/Img/10.png" },
+      { code: 11, url: "https://raw.githubusercontent.com/8zj/bo6-bs/main/Img/11.png" },
+      { code: 20, url: "https://raw.githubusercontent.com/8zj/bo6-bs/main/Img/20.png" },
+      { code: 21, url: "https://raw.githubusercontent.com/8zj/bo6-bs/main/Img/21.png" },
+      { code: 22, url: "https://raw.githubusercontent.com/8zj/bo6-bs/main/Img/22.png" }
+    ];
+    const selections = { X: null, Y: null, Z: null };
+
+    function createImageGrid(containerId, axis) {
+      const container = document.getElementById(containerId);
+      images.forEach(img => {
+        const image = document.createElement("img");
+        image.src = img.url;
+        image.dataset.code = img.code;
+        image.addEventListener("click", () => {
+          selections[axis] = parseInt(img.code);
+          container.querySelectorAll("img").forEach(i => i.classList.remove("selected"));
+          image.classList.add("selected");
+          showResults();
+        });
+        container.appendChild(image);
+      });
+    }
+
+    function terminus_solver(X, Y, Z) {
+      if (X === null || Y === null || Z === null) return ["--","--","--"];
+      let eq1 = Math.abs(2 * X + 11);
+      let eq2 = Math.abs((2 * Z + Y) - 5);
+      let eq3 = Math.abs((Y + Z) - X);
+      return [eq1, eq2, eq3];
+    }
+
+    function formatCode(val) {
+      return val.toString().padStart(2, "0");
+    }
+
+    function showResults() {
+      const {X, Y, Z} = selections;
+      const [eq1, eq2, eq3] = terminus_solver(X, Y, Z);
+      const boxes = document.querySelectorAll(".code-box");
+      [eq1, eq2, eq3].forEach((v,i)=> boxes[i].textContent = v==="--"?"--":formatCode(v));
+    }
+
+    createImageGrid("x-images", "X");
+    createImageGrid("y-images", "Y");
+    createImageGrid("z-images", "Z");
+    document.addEventListener('DOMContentLoaded', function() {
+    const navLinks = document.querySelectorAll('.nav-link');
+    const toggleBtn = document.querySelector('.toggle-btn');
+    const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main-content');
+            const currentPath = window.location.pathname;
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            toggleBtn.addEventListener('click', function() {
+                sidebar.classList.toggle('collapsed');
+                mainContent.classList.toggle('collapsed');
+                toggleBtn.classList.toggle('collapsed');
+            });
+
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768 &&
+                    !sidebar.contains(e.target) &&
+                    !toggleBtn.contains(e.target) &&
+                    !sidebar.classList.contains('collapsed')) {
+                    sidebar.classList.add('collapsed');
+                    mainContent.classList.add('collapsed');
+                    toggleBtn.classList.add('collapsed');
+                }
+            });
+
+            const floatingElements = document.querySelectorAll('.floating-element');
+            floatingElements.forEach(element => {
+                element.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.2)';
+                });
+
+                element.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+        });
+  </script>
+</body>
+</html>
