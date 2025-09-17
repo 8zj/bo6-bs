@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zombie Theme Dashboard</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0a0f1a;
+      color: #e0e8ff;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* BACKGROUND CANVAS */
+    canvas#network {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -2;
+      background: radial-gradient(circle at center, #0a0f1a 0%, #000 100%);
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 220px;
+      background: rgba(15,20,35,0.8);
+      border-right: 1px solid rgba(0,200,255,0.3);
+      box-shadow: 4px 0 25px rgba(0,0,0,0.7);
+      backdrop-filter: blur(10px);
+      color: #e0e8ff;
+      padding: 30px 20px;
+      position: fixed;
+      top: 50%; left: 30px;
+      transform: translateY(-50%);
+      border-radius: 20px;
+      transition: 0.3s;
+      z-index: 1000;
+    }
+    .sidebar h2 {
+      font-size: 1.4rem;
+      text-align: center;
+      color: #00c8ff;
+      text-shadow: 0 0 10px rgba(0,200,255,0.7);
+      margin-bottom: 20px;
+    }
+    .sidebar ul { list-style: none; padding: 0; }
+    .sidebar li { margin: 15px 0; }
+    .sidebar a {
+      display: block;
+      padding: 10px 15px;
+      color: #e0e8ff;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 500;
+      position: relative;
+      overflow: hidden;
+      transition: 0.3s;
+    }
+    .sidebar a:hover, .sidebar a.active {
+      background: rgba(0,200,255,0.15);
+      color: #00c8ff;
+      box-shadow: 0 0 15px rgba(0,200,255,0.5);
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      margin-left: 300px;
+      padding: 60px 30px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+    .page {
+      max-width: 1000px;
+      width: 100%;
+      background: rgba(20,25,40,0.7);
+      border: 1px solid rgba(0,200,255,0.2);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.8), inset 0 0 40px rgba(0,200,255,0.08);
+      backdrop-filter: blur(12px);
+      transform: rotateX(4deg);
+      transition: 0.5s;
+    }
+    .page:hover { transform: rotateX(0) scale(1.02); }
+    .page h1 {
+      color: #00c8ff;
+      margin-bottom: 15px;
+      text-shadow: 0 0 20px rgba(0,200,255,0.8);
+    }
+    .page p { color: #cfd9ff; }
+
+    /* INFO CARDS */
+    .info-cards {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+    .info-card {
+      flex: 1 1 280px;
+      background: rgba(15,20,35,0.85);
+      border: 1px solid rgba(0,200,255,0.2);
+      border-radius: 15px;
+      padding: 25px;
+      text-align: left;
+      color: #cfd9ff;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7), inset 0 0 20px rgba(0,200,255,0.05);
+      transition: 0.4s;
+    }
+    .info-card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.9), 0 0 25px rgba(0,200,255,0.5);
+    }
+    .info-card h3 {
+      color: #00c8ff;
+      margin-bottom: 10px;
+      text-shadow: 0 0 12px rgba(0,200,255,0.7);
+    }
+
+    /* RESPONSIVE */
+    @media(max-width: 900px) {
+      .sidebar { display: none; }
+      .main-content { margin-left: 0; padding: 30px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="network"></canvas>
+
+  <div class="sidebar">
+    <h2>Navigation</h2>
+    <ul>
+      <li><a href="/" class="active">Home</a></li>
+      <li><a href="/reckoning">Reckoning</a></li>
+      <li><a href="/shattered">Shattered Veil</a></li>
+      <li><a href="/terminus">Terminus</a></li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <div class="page">
+      <h1>Welcome to the Zombie World</h1>
+      <p>This is the central hub. Navigate using the sidebar to access different solvers and guides.</p>
+
+      <div class="info-cards">
+        <div class="info-card">
+          <h3>About This Website</h3>
+          <p>A collection of solvers and guides for the BO6 zombie maps. Each section has unique themes and tools.</p>
+        </div>
+        <div class="info-card">
+          <h3>Navigation Guide</h3>
+          <p>Sidebar provides quick links to Reckoning, Shattered Veil, and Terminus. Each page has its own puzzle solver.</p>
+        </div>
+        <div class="info-card">
+          <h3>Features</h3>
+          <p>Interactive solvers, neon-styled UI, responsive layout, and animated backgrounds for immersion.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Background network effect
+    const canvas = document.getElementById("network");
+    const ctx = canvas.getContext("2d");
+    let width, height, points;
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      points = Array.from({ length: 70 }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5
+      }));
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#00c8ff";
+      for (let p of points) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.strokeStyle = "rgba(0,200,255,0.2)";
+      for (let i = 0; i < points.length; i++) {
+        for (let j = i+1; j < points.length; j++) {
+          let dx = points[i].x - points[j].x;
+          let dy = points[i].y - points[j].y;
+          let dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(points[i].x, points[i].y);
+            ctx.lineTo(points[j].x, points[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>
