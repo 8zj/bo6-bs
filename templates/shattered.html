@@ -5,58 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shattered Veil - Solver</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
       font-family: 'Poppins', sans-serif;
       background: #0a0f1a;
       color: #e0e8ff;
+      margin: 0;
+      padding: 0;
       min-height: 100vh;
       overflow-x: hidden;
-      perspective: 1000px;
     }
 
-    /* BACKGROUND NETWORK CANVAS */
     canvas#network {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      z-index: -2;
+      z-index: -1;
       background: radial-gradient(circle at center, #0a0f1a 0%, #000 100%);
     }
 
-    /* NAVBAR */
     nav {
-      width: 100%;
-      padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(10,15,26,0.7);
-      backdrop-filter: blur(8px);
+      background: rgba(10,15,26,0.8);
+      backdrop-filter: blur(6px);
+      padding: 12px 20px;
       border-bottom: 1px solid rgba(0,200,255,0.3);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.7);
-      position: fixed;
-      top: 0; left: 0;
-      z-index: 1000;
-    }
-    nav .logo {
-      font-size: 1.4rem;
-      font-weight: bold;
-      color: #00c8ff;
-      text-shadow: 0 0 10px rgba(0,200,255,0.8);
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
     nav ul {
-      display: flex;
-      gap: 20px;
       list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: space-around;
     }
     nav a {
       color: #e0e8ff;
       text-decoration: none;
-      font-weight: 500;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 6px;
       transition: 0.3s;
     }
     nav a:hover, nav a.active {
@@ -64,100 +51,53 @@
       color: #00c8ff;
     }
 
-    /* MAIN CONTENT */
     .container {
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      padding-top: 80px;
+      min-height: calc(100vh - 60px);
+      padding: 20px;
     }
     .card {
       background: rgba(15,20,35,0.7);
-      backdrop-filter: blur(10px);
       border: 1px solid rgba(0,200,255,0.3);
-      border-radius: 20px;
-      padding: 40px;
-      max-width: 800px;
+      border-radius: 16px;
+      padding: 30px;
       width: 100%;
+      max-width: 600px;
       text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.8), inset 0 0 30px rgba(0,200,255,0.1);
-      transform: rotateX(4deg);
-      transition: transform 0.5s;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.7);
     }
-    .card:hover { transform: rotateX(0) scale(1.02); }
     .card h1 {
       color: #00c8ff;
       margin-bottom: 15px;
-      text-shadow: 0 0 15px rgba(0,200,255,0.8);
     }
-
-    /* DROPDOWNS + BUTTON */
-    .solver-inputs {
-      margin: 25px 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-    }
-    select {
+    select, button {
       padding: 12px;
+      margin: 10px;
       border-radius: 10px;
       border: 1px solid #00c8ff;
       background: rgba(20,25,40,0.9);
       color: #e0e8ff;
-      width: 250px;
       font-size: 1rem;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.4);
-    }
-    select:focus {
-      outline: none;
-      border-color: #0090ff;
-      box-shadow: 0 0 10px rgba(0,200,255,0.8);
+      cursor: pointer;
     }
     button {
-      padding: 12px 30px;
       background: linear-gradient(135deg, #00c8ff, #0066ff);
       color: #fff;
-      border: none;
-      border-radius: 12px;
       font-weight: bold;
-      cursor: pointer;
       transition: 0.3s;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
     }
     button:hover {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 12px 25px rgba(0,0,0,0.9);
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(0,200,255,0.7);
     }
-
-    /* RESULT */
-    .result-container {
+    #result {
       margin-top: 15px;
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       font-weight: bold;
       color: #00c8ff;
-      text-shadow: 0 0 15px rgba(0,200,255,0.8);
-    }
-
-    /* INFO CARDS */
-    .info-card {
-      margin-top: 30px;
-      padding: 20px;
-      border-radius: 12px;
-      background: rgba(20,25,40,0.7);
-      border: 1px solid rgba(0,200,255,0.2);
-      color: #cfd9ff;
-      text-align: left;
-      box-shadow: inset 0 0 20px rgba(0,200,255,0.05);
-    }
-    .info-card h3 { color: #00c8ff; margin-bottom: 10px; }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      nav ul { display: none; }
-      .card { margin: 20px; transform: none; }
-      select { width: 100%; }
+      text-shadow: 0 0 8px rgba(0,200,255,0.8);
     }
   </style>
 </head>
@@ -165,100 +105,52 @@
   <canvas id="network"></canvas>
 
   <nav>
-    <div class="logo">Shattered Veil</div>
     <ul>
-      <li><a href="/" class="nav-link">Home</a></li>
-      <li><a href="/reckoning" class="nav-link">Reckoning</a></li>
-      <li><a href="/shattered" class="nav-link active">Shattered Veil</a></li>
-      <li><a href="/terminus" class="nav-link">Terminus</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/reckoning">Reckoning</a></li>
+      <li><a href="/shattered" class="active">Shattered Veil</a></li>
+      <li><a href="/terminus">Terminus</a></li>
     </ul>
   </nav>
 
   <div class="container">
     <div class="card">
       <h1>Shattered Veil Solver</h1>
-      <p>Pick your chalkboard type and word to reveal the correct number.</p>
+      <p>Select your chalkboard type and word to reveal the number.</p>
 
-      <div class="solver-inputs">
-        <select id="boardSelect">
-          <option value="">-- Select Chalk Board --</option>
-          <option value="E">E</option>
-          <option value="BCDEF">BCDEF</option>
-          <option value="OSTUHJLD">OSTUHJLD</option>
-          <option value="AIOUY">AIOUY</option>
-        </select>
+      <select id="boardSelect">
+        <option value="">-- Select Chalk Board --</option>
+        <option value="E">E</option>
+        <option value="BCDEF">BCDEF</option>
+        <option value="OSTUHJLD">OSTUHJLD</option>
+        <option value="AIOUY">AIOUY</option>
+      </select>
 
-        <select id="wordSelect">
-          <option value="">-- Select Word --</option>
-          <option value="Crab">Crab</option>
-          <option value="Yeti">Yeti</option>
-          <option value="Moth">Moth</option>
-          <option value="Worm">Worm</option>
-        </select>
+      <select id="wordSelect">
+        <option value="">-- Select Word --</option>
+        <option value="Crab">Crab</option>
+        <option value="Yeti">Yeti</option>
+        <option value="Moth">Moth</option>
+        <option value="Worm">Worm</option>
+      </select>
 
-        <button id="solveBtn">Solve</button>
-      </div>
-
-      <div class="result-container" id="result"></div>
-
-      <div class="info-card">
-        <h3>How to Use</h3>
-        <p>
-          1. Select the chalkboard symbols from your game.<br>
-          2. Pick the word (Yeti, Moth, Worm, Crab).<br>
-          3. Click "Solve" → the correct number appears instantly.<br>
-        </p>
-      </div>
+      <br>
+      <button id="solveBtn">Solve</button>
+      <div id="result"></div>
     </div>
   </div>
-  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+  <!-- Background -->
   <script>
     const canvas = document.getElementById("network");
     const ctx = canvas.getContext("2d");
-    let width, height, points;
-
-    function resize() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-      points = Array.from({ length: 70 }, () => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5
-      }));
-    }
-    resize();
-    window.addEventListener("resize", resize);
-
-    function animate() {
-      ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = "#00c8ff";
-      for (let p of points) {
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < 0 || p.x > width) p.vx *= -1;
-        if (p.y < 0 || p.y > height) p.vy *= -1;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      ctx.strokeStyle = "rgba(0,200,255,0.2)";
-      for (let i = 0; i < points.length; i++) {
-        for (let j = i+1; j < points.length; j++) {
-          let dx = points[i].x - points[j].x;
-          let dy = points[i].y - points[j].y;
-          let dist = Math.sqrt(dx*dx + dy*dy);
-          if (dist < 120) {
-            ctx.beginPath();
-            ctx.moveTo(points[i].x, points[i].y);
-            ctx.lineTo(points[j].x, points[j].y);
-            ctx.stroke();
-          }
-        }
-      }
-      requestAnimationFrame(animate);
-    }
-    animate();
+    let w,h,points;
+    function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight;points=Array.from({length:50},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5}));}
+    resize();window.addEventListener("resize",resize);
+    function draw(){ctx.clearRect(0,0,w,h);ctx.fillStyle="#00c8ff";for(let p of points){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>w) p.vx*=-1;if(p.y<0||p.y>h) p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,2,0,Math.PI*2);ctx.fill();}
+      ctx.strokeStyle="rgba(0,200,255,0.2)";for(let i=0;i<points.length;i++){for(let j=i+1;j<points.length;j++){let dx=points[i].x-points[j].x;let dy=points[i].y-points[j].y;let dist=Math.sqrt(dx*dx+dy*dy);if(dist<100){ctx.beginPath();ctx.moveTo(points[i].x,points[i].y);ctx.lineTo(points[j].x,points[j].y);ctx.stroke();}}}requestAnimationFrame(draw);}draw();
   </script>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
