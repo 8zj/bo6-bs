@@ -14,144 +14,249 @@
       overflow-x: hidden;
     }
 
-    /* BACKGROUND */
+    /* Background */
     canvas#network {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      z-index: -2;
+      z-index: -1;
       background: radial-gradient(circle at center, #0a0f1a 0%, #000 100%);
     }
 
-    /* DESKTOP SIDEBAR */
-    .sidebar {
-      width: 200px;
-      background: rgba(15,20,35,0.8);
-      padding: 20px;
-      position: fixed;
-      top: 50%; left: 20px;
-      transform: translateY(-50%);
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0,200,255,0.4);
-      border: 1px solid rgba(0,200,255,0.3);
-      backdrop-filter: blur(8px);
-    }
-    .sidebar h2 {
-      color: #00c8ff;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .sidebar ul { list-style: none; padding: 0; }
-    .sidebar li { margin: 12px 0; }
-    .sidebar a {
-      color: #e0e8ff;
-      text-decoration: none;
-      display: block;
-      padding: 10px;
-      border-radius: 6px;
-      text-align: center;
-      transition: 0.3s;
-    }
-    .sidebar a:hover, .sidebar a.active {
-      background: rgba(0,200,255,0.2);
-      color: #00c8ff;
-    }
-
-    /* MOBILE TOPBAR */
-    .topbar {
-      display: none;
+    /* NAVBAR (PC + Mobile top bar) */
+    nav {
       width: 100%;
-      background: rgba(15,20,35,0.9);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10,15,26,0.7);
+      backdrop-filter: blur(8px);
       border-bottom: 1px solid rgba(0,200,255,0.3);
-      padding: 10px 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.7);
       position: fixed;
       top: 0; left: 0;
       z-index: 1000;
-      backdrop-filter: blur(6px);
     }
-    .topbar ul {
-      list-style: none;
+    nav .logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #00c8ff;
+      text-shadow: 0 0 10px rgba(0,200,255,0.8);
+    }
+    nav ul {
       display: flex;
-      justify-content: space-around;
-      padding: 0; margin: 0;
+      gap: 20px;
+      list-style: none;
     }
-    .topbar a {
+    nav a {
       color: #e0e8ff;
       text-decoration: none;
-      font-size: 0.9rem;
-      padding: 6px 10px;
-      border-radius: 6px;
+      font-weight: 500;
+      padding: 8px 12px;
+      border-radius: 8px;
       transition: 0.3s;
     }
-    .topbar a:hover, .topbar a.active {
-      background: rgba(0,200,255,0.2);
+    nav a:hover, nav a.active {
+      background: rgba(0,200,255,0.15);
       color: #00c8ff;
     }
 
-    /* MAIN CONTENT */
-    .main-content {
-      margin-left: 240px;
-      padding: 40px;
-      transition: margin-left 0.3s;
+    /* PC CONTENT */
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding-top: 100px;
     }
     .page {
       background: rgba(15,20,35,0.7);
+      backdrop-filter: blur(10px);
       border: 1px solid rgba(0,200,255,0.3);
-      border-radius: 15px;
-      padding: 30px;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 1000px;
+      width: 100%;
       text-align: center;
-      box-shadow: 0 0 30px rgba(0,200,255,0.1);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.8), inset 0 0 30px rgba(0,200,255,0.1);
     }
     .page h1 {
       color: #00c8ff;
       margin-bottom: 15px;
-      text-shadow: 0 0 10px rgba(0,200,255,0.7);
+      text-shadow: 0 0 15px rgba(0,200,255,0.8);
+    }
+
+    .info-cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 30px;
+      gap: 20px;
+    }
+    .info-card {
+      background: rgba(20,25,40,0.7);
+      border-radius: 12px;
+      padding: 20px;
+      width: 280px;
+      box-shadow: inset 0 0 20px rgba(0,200,255,0.05);
+      border: 1px solid rgba(0,200,255,0.2);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .info-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px rgba(0,200,255,0.3);
+    }
+    .info-card h3 {
+      color: #00c8ff;
+      margin-bottom: 10px;
+      border-bottom: 1px solid rgba(0,200,255,0.3);
+      padding-bottom: 8px;
+    }
+    .info-card p { color: #cfd9ff; line-height: 1.6; }
+
+    /* MOBILE CONTENT */
+    .mobile-message {
+      display: none;
+      text-align: center;
+      padding: 120px 20px 40px;
+    }
+    .mobile-message h1 {
+      color: #00c8ff;
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px rgba(0,200,255,0.8);
+    }
+    .mobile-message p {
+      margin-bottom: 15px;
+      color: #cfd9ff;
+    }
+    .mobile-links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+    .mobile-links a {
+      display: block;
+      background: rgba(0,200,255,0.15);
+      border: 1px solid #00c8ff;
+      border-radius: 10px;
+      padding: 12px;
+      text-decoration: none;
+      color: #00c8ff;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .mobile-links a:hover {
+      background: #00c8ff;
+      color: #000;
+      box-shadow: 0 0 15px rgba(0,200,255,0.8);
     }
 
     /* RESPONSIVE SWITCH */
     @media (max-width: 768px) {
-      .sidebar { display: none; }
-      .topbar { display: block; }
-      .main-content { margin-left: 0; padding-top: 70px; }
+      .container { display: none; }
+      .mobile-message { display: block; }
+      nav ul { display: none; } /* hide nav links on small */
     }
   </style>
 </head>
 <body>
   <canvas id="network"></canvas>
 
-  <!-- Desktop Sidebar -->
-  <div class="sidebar">
-    <h2>Menu</h2>
+  <nav>
+    <div class="logo">Zombie World</div>
     <ul>
-      <li><a href="/" class="active">Home</a></li>
-      <li><a href="/reckoning">Reckoning</a></li>
-      <li><a href="/shattered">Shattered Veil</a></li>
-      <li><a href="/terminus">Terminus</a></li>
+      <li><a href="/" class="nav-link active">Home</a></li>
+      <li><a href="/reckoning" class="nav-link">Reckoning</a></li>
+      <li><a href="/shattered" class="nav-link">Shattered Veil</a></li>
+      <li><a href="/terminus" class="nav-link">Terminus</a></li>
     </ul>
-  </div>
+  </nav>
 
-  <!-- Mobile Topbar -->
-  <div class="topbar">
-    <ul>
-      <li><a href="/" class="active">Home</a></li>
-      <li><a href="/reckoning">Reckoning</a></li>
-      <li><a href="/shattered">Shattered</a></li>
-      <li><a href="/terminus">Terminus</a></li>
-    </ul>
-  </div>
-
-  <!-- Main Content -->
-  <div class="main-content">
+  <!-- PC Content -->
+  <div class="container">
     <div class="page">
       <h1>Welcome to the Zombie World</h1>
-      <p>This website looks **way better on PC** — but mobile users can still navigate with the top bar.</p>
-      <p>Try going to:</p>
-      <ul style="list-style:none; padding:0; margin:20px 0;">
-        <li><a href="/reckoning">/reckoning</a></li>
-        <li><a href="/shattered">/shattered</a></li>
-        <li><a href="/terminus">/terminus</a></li>
-      </ul>
+      <p>This is the home page of our zombie-themed website. Explore the different sections using the navigation menu.</p>
+      <div class="info-cards">
+        <div class="info-card">
+          <h3>About This Website</h3>
+          <p>This website gives you tools and guides for the zombie apocalypse — with solvers and secrets for each map.</p>
+        </div>
+        <div class="info-card">
+          <h3>Navigation Guide</h3>
+          <p>Use the glowing nav bar above to move between Reckoning, Shattered Veil, and Terminus.</p>
+        </div>
+        <div class="info-card">
+          <h3>Solvers</h3>
+          <p>Reckoning → Periodic Table Solver<br>Shattered Veil → Chalkboard Solver<br>Terminus → Code Calculator</p>
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- Mobile Content -->
+  <div class="mobile-message">
+    <h1>Zombie World</h1>
+    <p>This website looks <strong>way better on PC</strong> — but mobile users can still explore:</p>
+    <div class="mobile-links">
+      <a href="/reckoning">Go to Reckoning</a>
+      <a href="/shattered">Go to Shattered Veil</a>
+      <a href="/terminus">Go to Terminus</a>
+      <a href="/">Back to Dashboard</a>
+    </div>
+  </div>
+
+  <script>
+    // Background animation
+    const canvas = document.getElementById("network");
+    const ctx = canvas.getContext("2d");
+    let width, height, points;
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      points = Array.from({ length: 70 }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5
+      }));
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#00c8ff";
+      for (let p of points) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.strokeStyle = "rgba(0,200,255,0.2)";
+      for (let i = 0; i < points.length; i++) {
+        for (let j = i+1; j < points.length; j++) {
+          let dx = points[i].x - points[j].x;
+          let dy = points[i].y - points[j].y;
+          let dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(points[i].x, points[i].y);
+            ctx.lineTo(points[j].x, points[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
 </body>
 </html>
