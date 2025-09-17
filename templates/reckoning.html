@@ -5,17 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reckoning - Solver</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
       font-family: 'Poppins', sans-serif;
       background: #0a0f1a;
       color: #e0e8ff;
+      margin: 0;
+      padding: 0;
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* BACKGROUND EFFECT */
     canvas#network {
       position: fixed;
       top: 0; left: 0;
@@ -24,163 +23,162 @@
       background: radial-gradient(circle at center, #0a0f1a 0%, #000 100%);
     }
 
-    /* === TOP NAVBAR FOR MOBILE === */
-    nav.topbar {
-      display: none;
-      background: rgba(10,15,26,0.9);
+    nav {
+      background: rgba(10,15,26,0.8);
+      backdrop-filter: blur(6px);
       padding: 12px 20px;
       border-bottom: 1px solid rgba(0,200,255,0.3);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.7);
       position: sticky;
       top: 0;
-      z-index: 999;
+      z-index: 10;
     }
-    nav.topbar ul {
+    nav ul {
       list-style: none;
-      display: flex;
-      justify-content: space-around;
       margin: 0;
       padding: 0;
+      display: flex;
+      justify-content: space-around;
     }
-    nav.topbar a {
+    nav a {
       color: #e0e8ff;
       text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
       padding: 6px 10px;
       border-radius: 6px;
       transition: 0.3s;
     }
-    nav.topbar a:hover, nav.topbar a.active {
+    nav a:hover, nav a.active {
       background: rgba(0,200,255,0.15);
       color: #00c8ff;
     }
 
-    /* === PC CONTENT === */
     .container {
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      padding-top: 80px;
+      min-height: calc(100vh - 60px);
+      padding: 20px;
     }
-    .page {
+
+    .card {
       background: rgba(15,20,35,0.7);
       border: 1px solid rgba(0,200,255,0.3);
       border-radius: 16px;
       padding: 30px;
-      width: 90%;
-      max-width: 800px;
+      width: 100%;
+      max-width: 600px;
       text-align: center;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.8);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.7);
     }
-    .page h1 {
+
+    .card h1 {
       color: #00c8ff;
       margin-bottom: 15px;
     }
 
-    .info {
+    .solver {
       margin-top: 20px;
-      font-size: 0.95rem;
-      color: #cfd9ff;
-      text-align: left;
-      line-height: 1.5;
     }
-
-    /* === MOBILE ONLY MESSAGE === */
-    .mobile-msg {
-      display: none;
+    .solver input {
+      width: 100px;
+      padding: 10px;
+      margin: 10px;
+      border: 1px solid #00c8ff;
+      border-radius: 8px;
+      background: rgba(20,25,40,0.9);
+      color: #e0e8ff;
       text-align: center;
-      padding: 15px;
-      background: rgba(0,200,255,0.05);
-      border: 1px solid rgba(0,200,255,0.3);
+      font-size: 1rem;
+    }
+    .solver button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      background: linear-gradient(135deg, #00c8ff, #0066ff);
+      border: none;
       border-radius: 10px;
-      margin: 15px;
-      font-size: 0.9rem;
-      color: #a5cfff;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .solver button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(0,200,255,0.7);
     }
 
-    /* === RESPONSIVE === */
-    @media (max-width: 768px) {
-      .container { padding-top: 40px; }
-      nav.topbar { display: block; }
-      .page { margin: 15px; padding: 20px; }
-      .mobile-msg { display: block; }
+    #result {
+      margin-top: 15px;
+      font-size: 1.2rem;
+      color: #00c8ff;
+      text-shadow: 0 0 8px rgba(0,200,255,0.8);
     }
   </style>
 </head>
 <body>
   <canvas id="network"></canvas>
 
-  <!-- TOPBAR ONLY ON MOBILE -->
-  <nav class="topbar">
+  <nav>
     <ul>
-      <li><a href="/" >Home</a></li>
+      <li><a href="/">Home</a></li>
       <li><a href="/reckoning" class="active">Reckoning</a></li>
-      <li><a href="/shattered">Shattered</a></li>
+      <li><a href="/shattered">Shattered Veil</a></li>
       <li><a href="/terminus">Terminus</a></li>
     </ul>
   </nav>
 
-  <!-- MOBILE INFO MESSAGE -->
-  <div class="mobile-msg">
-    ⚠️ This site looks way better on PC.  
-    Use the top bar above to jump between maps.
-  </div>
-
-  <!-- MAIN PC CONTENT -->
   <div class="container">
-    <div class="page">
+    <div class="card">
       <h1>Reckoning Solver</h1>
-      <p>Enter two letters to solve with the periodic table.</p>
-      <div class="info">
-        <p><strong>Example:</strong> Input "O" and "H" → outputs the atomic number for Oxygen + Hydrogen.</p>
-        <p>This solver is themed with our zombie UI. Works best on PC!</p>
+      <p>Enter two letters to find the atomic number or related element.</p>
+
+      <div class="solver">
+        <input type="text" id="letter1" maxlength="2" placeholder="Letter 1">
+        <input type="text" id="letter2" maxlength="2" placeholder="Letter 2">
+        <br>
+        <button id="solve-btn">Solve</button>
+        <div id="result"></div>
       </div>
     </div>
   </div>
 
-  <!-- BACKGROUND ANIMATION -->
+  <!-- Background animation -->
   <script>
     const canvas = document.getElementById("network");
     const ctx = canvas.getContext("2d");
-    let w, h, points;
-
-    function resize() {
+    let w,h,points;
+    function resize(){
       w = canvas.width = window.innerWidth;
       h = canvas.height = window.innerHeight;
-      points = Array.from({ length: 60 }, () => ({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4
+      points = Array.from({length:50},()=>({
+        x:Math.random()*w,
+        y:Math.random()*h,
+        vx:(Math.random()-.5)*.5,
+        vy:(Math.random()-.5)*.5
       }));
     }
     resize();
-    window.addEventListener("resize", resize);
+    window.addEventListener("resize",resize);
 
-    function draw() {
-      ctx.clearRect(0, 0, w, h);
-      ctx.fillStyle = "#00c8ff";
-      for (let p of points) {
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < 0 || p.x > w) p.vx *= -1;
-        if (p.y < 0 || p.y > h) p.vy *= -1;
+    function draw(){
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle="#00c8ff";
+      for(let p of points){
+        p.x+=p.vx;p.y+=p.vy;
+        if(p.x<0||p.x>w) p.vx*=-1;
+        if(p.y<0||p.y>h) p.vy*=-1;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+        ctx.arc(p.x,p.y,2,0,Math.PI*2);
         ctx.fill();
       }
-      ctx.strokeStyle = "rgba(0,200,255,0.2)";
-      for (let i = 0; i < points.length; i++) {
-        for (let j = i+1; j < points.length; j++) {
-          let dx = points[i].x - points[j].x;
-          let dy = points[i].y - points[j].y;
-          let dist = Math.sqrt(dx*dx + dy*dy);
-          if (dist < 100) {
+      ctx.strokeStyle="rgba(0,200,255,0.2)";
+      for(let i=0;i<points.length;i++){
+        for(let j=i+1;j<points.length;j++){
+          let dx=points[i].x-points[j].x;
+          let dy=points[i].y-points[j].y;
+          let dist=Math.sqrt(dx*dx+dy*dy);
+          if(dist<100){
             ctx.beginPath();
-            ctx.moveTo(points[i].x, points[i].y);
-            ctx.lineTo(points[j].x, points[j].y);
+            ctx.moveTo(points[i].x,points[i].y);
+            ctx.lineTo(points[j].x,points[j].y);
             ctx.stroke();
           }
         }
@@ -189,5 +187,8 @@
     }
     draw();
   </script>
+
+  <!-- Link to your global script -->
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
