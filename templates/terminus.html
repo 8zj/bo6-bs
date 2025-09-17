@@ -3,54 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Terminus Solver</title>
+  <title>Terminus - Solver</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
       font-family: 'Poppins', sans-serif;
       background: #0a0f1a;
       color: #e0e8ff;
+      margin: 0;
+      padding: 0;
       min-height: 100vh;
       overflow-x: hidden;
-      perspective: 1000px;
     }
 
     canvas#network {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      z-index: -2;
+      z-index: -1;
       background: radial-gradient(circle at center, #0a0f1a 0%, #000 100%);
     }
 
     nav {
-      width: 100%;
-      padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(10,15,26,0.7);
-      backdrop-filter: blur(8px);
+      background: rgba(10,15,26,0.8);
+      backdrop-filter: blur(6px);
+      padding: 12px 20px;
       border-bottom: 1px solid rgba(0,200,255,0.3);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.7);
-      position: fixed;
-      top: 0; left: 0;
-      z-index: 1000;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
-    nav .logo {
-      font-size: 1.4rem;
-      font-weight: bold;
-      color: #00c8ff;
-      text-shadow: 0 0 10px rgba(0,200,255,0.8);
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: space-around;
     }
-    nav ul { display: flex; gap: 20px; list-style: none; }
     nav a {
       color: #e0e8ff;
       text-decoration: none;
-      font-weight: 500;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 6px;
       transition: 0.3s;
     }
     nav a:hover, nav a.active {
@@ -62,199 +55,75 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      padding-top: 100px;
+      min-height: calc(100vh - 60px);
+      padding: 20px;
     }
-
-    .page {
+    .card {
       background: rgba(15,20,35,0.7);
-      backdrop-filter: blur(10px);
       border: 1px solid rgba(0,200,255,0.3);
-      border-radius: 20px;
-      padding: 40px;
-      max-width: 900px;
+      border-radius: 16px;
+      padding: 30px;
       width: 100%;
+      max-width: 800px;
       text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.8), inset 0 0 30px rgba(0,200,255,0.1);
-      transform: rotateX(3deg);
-      transition: transform 0.5s;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.7);
     }
-    .page:hover { transform: rotateX(0) scale(1.02); }
-    .page h1 {
+    .card h1 {
       color: #00c8ff;
       margin-bottom: 15px;
-      text-shadow: 0 0 15px rgba(0,200,255,0.8);
     }
 
-    .axis-row {
-      display: flex;
-      align-items: center;
-      margin: 15px 0;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    .axis-row span {
-      font-weight: bold;
-      color: #00c8ff;
-      font-size: 1.2rem;
-      margin-right: 10px;
-    }
-    .images {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .images img {
-      width: 70px; height: 70px;
-      object-fit: contain;
-      border: 2px solid #0090ff;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-      background: rgba(20,25,40,0.9);
-    }
-    .images img:hover {
-      transform: scale(1.08);
-      border-color: #00c8ff;
-      box-shadow: 0 0 15px rgba(0,200,255,0.7);
-    }
-    .images img.selected {
-      border-color: #00c8ff;
-      box-shadow: 0 0 20px rgba(0,200,255,0.9);
-    }
+    .axis-row { display: flex; align-items: center; margin: 10px 0; justify-content: center; flex-wrap: wrap; gap: 10px; }
+    .axis-row span { font-weight: bold; color: #00c8ff; margin-right: 10px; }
+    .images { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+    .images img { width: 70px; height: 70px; border: 2px solid #0090ff; border-radius: 10px; cursor: pointer; background: rgba(20,25,40,0.9); }
+    .images img:hover { border-color: #00c8ff; box-shadow: 0 0 12px rgba(0,200,255,0.7); }
+    .images img.selected { border-color: #00c8ff; box-shadow: 0 0 18px rgba(0,200,255,0.9); }
 
-    .result-container {
-      margin-top: 25px;
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-    }
-    .code-box {
-      width: 70px; height: 70px;
-      background: #000;
-      border: 3px solid #00c8ff;
-      border-radius: 10px;
-      display: flex; justify-content: center; align-items: center;
-      font-size: 2rem; font-weight: bold;
-      color: #00c8ff;
-      text-shadow: 0 0 15px rgba(0,200,255,0.8);
-      box-shadow: 0 0 20px rgba(0,200,255,0.4);
-    }
-
-    .info-box {
-      margin-top: 30px;
-      padding: 20px;
-      border-radius: 12px;
-      background: rgba(20,25,40,0.7);
-      border: 1px solid rgba(0,200,255,0.2);
-      color: #cfd9ff;
-      text-align: left;
-      box-shadow: inset 0 0 20px rgba(0,200,255,0.05);
-    }
-    .info-box h2 { color: #00c8ff; margin-bottom: 10px; }
-
-    @media (max-width: 768px) {
-      nav ul { display: none; }
-      .page { margin: 20px; transform: none; }
-      .images img { width: 55px; height: 55px; }
-      .code-box { width: 55px; height: 55px; font-size: 1.5rem; }
-    }
+    .result-container { margin-top: 20px; display: flex; justify-content: center; gap: 15px; }
+    .code-box { width: 70px; height: 70px; background: #000; border: 3px solid #00c8ff; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #00c8ff; text-shadow: 0 0 12px rgba(0,200,255,0.9); }
   </style>
 </head>
 <body>
   <canvas id="network"></canvas>
 
   <nav>
-    <div class="logo">Terminus</div>
     <ul>
-      <li><a href="/" class="nav-link">Home</a></li>
-      <li><a href="/reckoning" class="nav-link">Reckoning</a></li>
-      <li><a href="/shattered" class="nav-link">Shattered Veil</a></li>
-      <li><a href="/terminus" class="nav-link active">Terminus</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/reckoning">Reckoning</a></li>
+      <li><a href="/shattered">Shattered Veil</a></li>
+      <li><a href="/terminus" class="active">Terminus</a></li>
     </ul>
   </nav>
 
   <div class="container">
-    <div class="page">
-      <div class="hero">
-        <img src="https://hub.tcno.co/games/bo6/terminus/terminus.webp" alt="Terminus Guide" style="width:100%;border-radius:12px;margin-bottom:20px;border:2px solid #00c8ff;">
-      </div>
+    <div class="card">
       <h1>Terminus Solver</h1>
-      <p>Select the shapes for X, Y, and Z. The calculator outputs the final code.</p>
+      <p>Select the shapes for X, Y, and Z. The calculator outputs the code.</p>
 
-      <div class="solver-container">
-        <div class="axis-row"><span>X:</span><div class="images" id="x-images"></div></div>
-        <div class="axis-row"><span>Y:</span><div class="images" id="y-images"></div></div>
-        <div class="axis-row"><span>Z:</span><div class="images" id="z-images"></div></div>
-      </div>
+      <div class="axis-row"><span>X:</span><div id="x-images" class="images"></div></div>
+      <div class="axis-row"><span>Y:</span><div id="y-images" class="images"></div></div>
+      <div class="axis-row"><span>Z:</span><div id="z-images" class="images"></div></div>
 
-      <div class="result-container" id="result">
+      <div class="result-container">
         <div class="code-box">--</div>
         <div class="code-box">--</div>
         <div class="code-box">--</div>
-      </div>
-
-      <div class="info-box">
-        <h2>How to Find X, Y, and Z</h2>
-        <ol>
-          <li><strong>X:</strong> Find the hour hand on the clock in the Quick Revive room.</li>
-          <li><strong>Y:</strong> Look for a playing card in the Mess Hall. If Ace → Y = 1; else use its number.</li>
-          <li><strong>Z:</strong> Check the "Days Since Last Injury" sign in Engineering (F5).</li>
-        </ol>
       </div>
     </div>
   </div>
 
-  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <!-- Background -->
   <script>
     const canvas = document.getElementById("network");
     const ctx = canvas.getContext("2d");
-    let width, height, points;
-
-    function resize() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-      points = Array.from({ length: 70 }, () => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5
-      }));
-    }
-    resize();
-    window.addEventListener("resize", resize);
-
-    function animate() {
-      ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = "#00c8ff";
-      for (let p of points) {
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < 0 || p.x > width) p.vx *= -1;
-        if (p.y < 0 || p.y > height) p.vy *= -1;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      ctx.strokeStyle = "rgba(0,200,255,0.2)";
-      for (let i = 0; i < points.length; i++) {
-        for (let j = i+1; j < points.length; j++) {
-          let dx = points[i].x - points[j].x;
-          let dy = points[i].y - points[j].y;
-          let dist = Math.sqrt(dx*dx + dy*dy);
-          if (dist < 120) {
-            ctx.beginPath();
-            ctx.moveTo(points[i].x, points[i].y);
-            ctx.lineTo(points[j].x, points[j].y);
-            ctx.stroke();
-          }
-        }
-      }
-      requestAnimationFrame(animate);
-    }
-    animate();
+    let w,h,points;
+    function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight;points=Array.from({length:50},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5}));}
+    resize();window.addEventListener("resize",resize);
+    function draw(){ctx.clearRect(0,0,w,h);ctx.fillStyle="#00c8ff";for(let p of points){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>w) p.vx*=-1;if(p.y<0||p.y>h) p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,2,0,Math.PI*2);ctx.fill();}
+      ctx.strokeStyle="rgba(0,200,255,0.2)";for(let i=0;i<points.length;i++){for(let j=i+1;j<points.length;j++){let dx=points[i].x-points[j].x;let dy=points[i].y-points[j].y;let dist=Math.sqrt(dx*dx+dy*dy);if(dist<100){ctx.beginPath();ctx.moveTo(points[i].x,points[i].y);ctx.lineTo(points[j].x,points[j].y);ctx.stroke();}}}requestAnimationFrame(draw);}draw();
   </script>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
